@@ -85,6 +85,7 @@ void MainFlow::run(char** argv){
                 cin >> tripID >> blank >> startX >> blank >> startY >> blank >> endX >> blank >> endY >> blank
                     >> passNum >> blank >> tariff;
                 vector<Passenger *> passengers;
+                // Serialize trip here
                 Point startOfTrip(startX, startY);
                 Point endOfTrip(endX, endY);
                 this->taxiCenter->addCall(tripID, &startOfTrip, &endOfTrip, passengers, tariff);
