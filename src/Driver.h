@@ -32,7 +32,7 @@ private:
     stack<AbstractNode*> trail;
     MapRestartListener* mapListener;
     Map* map;
-
+    int cabID;
     void updateSat();
 
 
@@ -41,7 +41,7 @@ private:
     void validate(int age, int exp, int id);
 public:
     Driver(int id, int age, Status marital, int exp,
-           AbstractNode *currPos, MapRestartListener* mapListener, Map *map);
+           int cabID);
 
     void setAge(int age);
     void setMarital(Status marital);
@@ -50,6 +50,7 @@ public:
     void setCab(Cab *cab);
     bool setCurrTrip(Trip *newTrip);
     void setIsAvailable(bool isAvailable);
+    void setMap(Map* map);
 
     int getId() const;
     int getAge() const;

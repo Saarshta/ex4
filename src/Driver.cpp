@@ -166,11 +166,8 @@ void Driver::updateSat(){
  * @param map the driver's map.
  * @return nothing.
  */
-Driver::Driver(int id, int age, Status marital, int exp, AbstractNode *currPos,
-               MapRestartListener* mapListener, Map *map) : id(id), age(age), marital(marital), exp(exp),
-                                                                                            currPos(currPos),
-                                                                                            map(map),
-                                                                                            mapListener(mapListener)
+Driver::Driver(int id, int age, Status marital, int exp, int cabID) : id(id), age(age), marital(marital), exp(exp),
+                                                                                            cabID(cabID)
 {
     // Check if the input is valid before constructing.
     validate(age, exp, id);
@@ -178,6 +175,9 @@ Driver::Driver(int id, int age, Status marital, int exp, AbstractNode *currPos,
     totalCostumersNumber = 0;
     avgCostumersSat = 0;
     cab = NULL;
+    currPos = NULL;
+    map = NULL;
+    mapListener = NULL;
     currTrip = NULL;
     isAvailable = true;
 }
@@ -255,3 +255,11 @@ void Driver::drive() {
     isAvailable = true;
 
 }
+
+void Driver::setMap(Map* map) {
+    this->map = map;
+    this->mapListener = new MapRestartListener(map);
+    Point point(0,0);
+    this->currPos = map->getNode(&point);
+}
+

@@ -19,11 +19,11 @@ private:
     TaxiCenter* taxiCenter;
     Map* map;
 public:
-    MainFlow(int sizeX, int sizeY, vector<Point> obstacles);
+    MainFlow(int sizeX, int sizeY, vector<Point> obstacle);
 
     ~MainFlow();
 
-    void run();
+    void run(char** argv);
 
 };
 

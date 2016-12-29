@@ -25,7 +25,7 @@ int main(int argc, char **argv) {
     }
     MainFlow mainFlow(sizeX, sizeY, obstacles);
     // Run the program.
-    mainFlow.run();
+    mainFlow.run(argv);
     return 0;
 }
 

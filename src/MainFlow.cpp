@@ -3,6 +3,7 @@
 //
 
 #include "MainFlow.h"
+#include "Udp.h"
 
 
 /**
@@ -18,46 +19,62 @@ MainFlow::MainFlow(int sizeX, int sizeY, vector<Point> obstacles) {
 }
 
 
-void MainFlow::run(){
+void MainFlow::run(char** argv){
     int option;
     char blank;
+    Udp udp(1, atoi(argv[1]));
+    udp.initialize();
+    char buffer[1024];
     MapRestartListener mapListener(map);
     do{
         cin >> option;
         switch (option) {
             case 1: // add a driver
             {
-                int id;
-                int age;
-                char maritalSign;
-                Status marital;
-                int exp;
-                int cabID;
-                cin >> id >> blank >> age >> blank >> maritalSign >> blank >>
-                    exp >> blank >> cabID;
-                switch (maritalSign) {
-                    // Options are Widowed, Divorced, Single, Married.
-                    case 'W':
-                        marital = Status::WIDOWED;
-                        break;
-                    case 'D':
-                        marital = Status::DIVORCED;
-                        break;
-                    case 'S':
-                        marital = Status::SINGLE;
-                        break;
-                    case 'M':
-                        marital = Status::MARRIED;
-                        break;
-                    default:
-                        throw invalid_argument("marital status is invalid");
-                }
-                Point startPos(0, 0);
-                Driver *driver = new Driver(id, age, marital, exp,
-                                            map->getNode(&startPos), &mapListener, map);
-                this->taxiCenter->addDriver(driver);
-                this->taxiCenter->assignCabToDriver(id, cabID);
-                break;
+                int driversNum;
+                cin >> driversNum;
+                udp.reciveData(buffer, sizeof(buffer));
+                cout << buffer << endl;
+                udp.sendData("The serialized cab");
+                // We received a driver, need to deserialize.
+                // we add the map to the driver
+                // we find a suitable cab for the driver, set it and serialize it
+                udp.sendData("The serialized map");
+                // we add the driver to drivers list in taxicenter
+                //send the cab and the map to client
+
+
+//                int id;
+//                int age;
+//                char maritalSign;
+//                Status marital;
+//                int exp;
+//                int cabID;
+//                cin >> id >> blank >> age >> blank >> maritalSign >> blank >>
+//                    exp >> blank >> cabID;
+//                switch (maritalSign) {
+//                    // Options are Widowed, Divorced, Single, Married.
+//                    case 'W':
+//                        marital = Status::WIDOWED;
+//                        break;
+//                    case 'D':
+//                        marital = Status::DIVORCED;
+//                        break;
+//                    case 'S':
+//                        marital = Status::SINGLE;
+//                        break;
+//                    case 'M':
+//                        marital = Status::MARRIED;
+//                        break;
+//                    default:
+//                        throw invalid_argument("marital status is invalid");
+//                }
+//                Point startPos(0, 0);
+//                Driver *driver = new Driver(id, age, marital, exp,
+//                                            map->getNode(&startPos), &mapListener, map);
+//                this->taxiCenter->addDriver(driver);
+//                this->taxiCenter->assignCabToDriver(id, cabID);
+//                break;
             }
             case 2: // add a trip to taxiCenter as call
             {
