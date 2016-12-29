@@ -35,14 +35,14 @@ void MainFlow::run(char** argv){
                 cin >> driversNum;
                 udp.reciveData(buffer, sizeof(buffer));
                 cout << buffer << endl;
-                udp.sendData("The serialized cab");
-                // We received a driver, need to deserialize.
-                // we add the map to the driver
-                // we find a suitable cab for the driver, set it and serialize it
-                udp.sendData("The serialized map");
+                // We received a driver, need to deserialize and create driver object.
+
+                // we find a cab to driver
+                // we set map and cab to driver
                 // we add the driver to drivers list in taxicenter
                 //send the cab and the map to client
-
+                udp.sendData("The serialized cab");
+                udp.sendData("The serialized map");
 
 //                int id;
 //                int age;
@@ -89,6 +89,7 @@ void MainFlow::run(char** argv){
                 Point startOfTrip(startX, startY);
                 Point endOfTrip(endX, endY);
                 this->taxiCenter->addCall(tripID, &startOfTrip, &endOfTrip, passengers, tariff);
+                udp.sendData("The serialized cab");
                 break;
             }
             case 3: // add a cab
