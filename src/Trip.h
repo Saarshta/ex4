@@ -33,6 +33,8 @@ public:
     AbstractNode* getEnd();
     AbstractNode* getStart();
 
+    int getStartingTime() const;
+
     int getId() const;
 
 };

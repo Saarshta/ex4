@@ -44,7 +44,8 @@ public:
     Driver* getDriverByID(int id);
     Cab* getCabByID(int id);
     void addDriver(Driver* newDriver);
-    void addCall(int id, AbstractPoint* start, AbstractPoint* end, const vector<Passenger *> passengers, float tariff);
+    void addCall(int id, AbstractPoint* start, AbstractPoint* end,
+                 const vector<Passenger *> passengers, float tariff, int startingTime);
     void addCab(Cab* newCab);
     void handleOpenCalls();
     void drive();

@@ -70,11 +70,13 @@ bool TaxiCenter::findClosestDriver(Trip* call){
  */
 void TaxiCenter::handleOpenCalls() {
     for (int i = 0; i < openCalls.size(); i++) {
-        // check if trip time is now!
-        if (findClosestDriver(openCalls[i])) {
-            // Decrementing i, because we deleted the trip from the
-            // list, so the list became smaller.
-            i--;
+        // check if trip time is now
+        if (currentTime == openCalls[i]->getStartingTime()) {
+            if (findClosestDriver(openCalls[i])) {
+                // Decrementing i, because we deleted the trip from the
+                // list, so the list became smaller.
+                i--;
+            }
         }
     }
 }
@@ -85,7 +87,7 @@ void TaxiCenter::handleOpenCalls() {
 void TaxiCenter::drive() {
     //for now just put the end pos of trip in curr pos.
     for (int i = 0; i < drivers.size(); i++) {
-        drivers[i]->moveOneStep();
+        drivers[i]->moveOneStep(currentTime);
     }
 
 }
@@ -104,10 +106,11 @@ void TaxiCenter::addDriver(Driver* newDriver){
  * @param passengers the passengers of the planned trip.
  * @param tariff the trip's tariff.
  */
-void TaxiCenter::addCall(int id, AbstractPoint* start, AbstractPoint* end, const vector<Passenger *> passengers, float tariff){
+void TaxiCenter::addCall(int id, AbstractPoint* start, AbstractPoint* end,
+                         const vector<Passenger *> passengers, float tariff, int startingTime){
     AbstractNode* startOfTrip = this->map->getNode(start);
     AbstractNode* endOfTrip = this->map->getNode(end);
-    Trip* newTrip= new Trip(id, startOfTrip, endOfTrip, tariff, passengers);
+    Trip* newTrip= new Trip(id, startOfTrip, endOfTrip, tariff, passengers, startingTime);
     this->openCalls.push_back(newTrip);
 }
 

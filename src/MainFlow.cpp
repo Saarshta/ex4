@@ -45,31 +45,7 @@ void MainFlow::run(char** argv){
                 udp.sendData("The serialized cab");
                 udp.sendData("The serialized map");
 
-//                int id;
-//                int age;
-//                char maritalSign;
-//                Status marital;
-//                int exp;
-//                int cabID;
-//                cin >> id >> blank >> age >> blank >> maritalSign >> blank >>
-//                    exp >> blank >> cabID;
-//                switch (maritalSign) {
-//                    // Options are Widowed, Divorced, Single, Married.
-//                    case 'W':
-//                        marital = Status::WIDOWED;
-//                        break;
-//                    case 'D':
-//                        marital = Status::DIVORCED;
-//                        break;
-//                    case 'S':
-//                        marital = Status::SINGLE;
-//                        break;
-//                    case 'M':
-//                        marital = Status::MARRIED;
-//                        break;
-//                    default:
-//                        throw invalid_argument("marital status is invalid");
-//                }
+
 //                Point startPos(0, 0);
 //                Driver *driver = new Driver(id, age, marital, exp,
 //                                            map->getNode(&startPos), &mapListener, map);
@@ -82,13 +58,15 @@ void MainFlow::run(char** argv){
                 int tripID;
                 int startX, startY, endX, endY;
                 int passNum;
+                int startingTime;
                 float tariff;
                 cin >> tripID >> blank >> startX >> blank >> startY >> blank >> endX >> blank >> endY >> blank
-                    >> passNum >> blank >> tariff;
+                    >> passNum >> blank >> tariff >> blank >> startingTime;
                 vector<Passenger *> passengers;
                 Point startOfTrip(startX, startY);
                 Point endOfTrip(endX, endY);
-                this->taxiCenter->addCall(tripID, &startOfTrip, &endOfTrip, passengers, tariff);
+                this->taxiCenter->addCall(tripID, &startOfTrip, &endOfTrip, passengers,
+                                          tariff, startingTime);
                 break;
             }
             case 3: // add a cab

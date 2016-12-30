@@ -76,3 +76,7 @@ void Trip::validate(int id, float tariff) {
         throw invalid_argument("id or tariff is invalid");
     }
 }
+
+int Trip::getStartingTime() const {
+    return startingTime;
+}

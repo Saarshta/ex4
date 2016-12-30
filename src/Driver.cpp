@@ -193,10 +193,16 @@ void Driver::setTrail(const stack<AbstractNode *> &trail) {
 /**
  * moveOneStep - moves one step on the trail.
  */
-void Driver::moveOneStep(){
+void Driver::moveOneStep(int time){
+    if (currTrip == NULL) {
+        return;
+    }
     if(trail.size()!=0) {
-        currPos = trail.top();
-        trail.pop();
+        // Maybe only > ? need to check
+        if (time - 1 >= currTrip->getStartingTime()) {
+            currPos = trail.top();
+            trail.pop();
+        }
     }
     else {
         delete currTrip;

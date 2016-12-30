@@ -67,7 +67,7 @@ public:
 
     int distanceFromNode(AbstractNode* node);
 
-    void moveOneStep();
+    void moveOneStep(int time);
 
     virtual ~Driver();
 };

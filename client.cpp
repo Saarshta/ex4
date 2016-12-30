@@ -18,19 +18,32 @@ int main(int argc, char *argv[]) {
 
     DriverOperator driverOperator;
     driverOperator.initializeDriver(); // wait for input
-    //serialize driver into buffer
+    // create and serialize driver into buffer
 
 
     udp.sendData("the serialized driver");
     udp.reciveData(buffer, sizeof(buffer)); // get serialized cab
+    cout << buffer << endl;
     udp.reciveData(buffer, sizeof(buffer)); // get serialized map
-
-    //deserialize cab and map and set into driver
     cout << buffer << endl;
 
-    udp.reciveData(buffer, sizeof(buffer)); // get serialized trip
-    //deserelize trip and set into driver
+    //deserialize cab and map and set into driver
+
+    while(true) {
+        udp.reciveData(buffer, sizeof(buffer));
+        cout << buffer << endl;//test trip
+        udp.reciveData(buffer, sizeof(buffer));
+        cout << buffer << endl;//test time
+        break;
+        // if we got 7 then break
+        // if currentTrip is null wait for trip
+            //deserelize trip and set into driver
+
+        // else we wait for move (get current time)
+            //this.driver.move(time)
 
 
+
+    }
     return 0;
 }
