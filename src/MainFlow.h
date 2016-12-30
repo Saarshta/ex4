@@ -18,6 +18,7 @@ class MainFlow {
 private:
     TaxiCenter* taxiCenter;
     Map* map;
+
 public:
     MainFlow(int sizeX, int sizeY, vector<Point> obstacle);
 

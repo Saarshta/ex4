@@ -20,12 +20,39 @@ MainFlow::MainFlow(int sizeX, int sizeY, vector<Point> obstacles) {
 
 
 void MainFlow::run(char** argv){
-    int option;
-    char blank;
+
     Udp udp(1, atoi(argv[1]));
     udp.initialize();
     this->taxiCenter->setUdp(&udp);
-    char buffer[1024];
+    char buffer[4096];
+    char* end = buffer+4095;
+
+    /*
+     * Testing serialization
+     */
+    Point p(1,5);
+
+    std::string serial_str;
+    boost::iostreams::back_insert_device<std::string> inserter(serial_str);
+    boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s(inserter);
+    boost::archive::binary_oarchive oa(s);
+    oa << p;
+    s.flush();
+
+
+    cout << serial_str << endl;
+
+    boost::iostreams::basic_array_source<char> device(buffer, end);
+    boost::iostreams::stream<boost::iostreams::basic_array_source<char> > s2(device);
+    boost::archive::binary_iarchive ia(s2);
+    ia >> p;
+
+    cout << p << endl;
+
+
+    int option;
+    char blank;
+
     MapRestartListener mapListener(map);
     do{
         cin >> option;
