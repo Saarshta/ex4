@@ -13,6 +13,10 @@ int Driver::getId() const {
     return id;
 }
 
+Driver::Driver() {
+
+}
+
 /**
  * getAge
  * @return the driver's age.
@@ -249,12 +253,18 @@ Driver::~Driver() {
 
 }
 
-
-
 void Driver::setMap(Map* map) {
     this->map = map;
     this->mapListener = new MapRestartListener(map);
     Point point(0,0);
     this->currPos = map->getNode(&point);
+}
+
+int Driver::getCabID() const {
+    return cabID;
+}
+
+void Driver::setCurrPos(AbstractNode *currPos) {
+    Driver::currPos = currPos;
 }
 

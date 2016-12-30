@@ -23,11 +23,11 @@ private:
     vector<Cab*> cabs;
     int currentTime;
 public:
-    void setUdp(Udp *udp);
+    void setUdp(Socket *udp);
 
 private:
     vector<Trip*> openCalls;
-    Udp* udp;
+    Socket* udp;
 
     void removeCall(int CallID);
     bool findClosestDriver(Trip* call);
@@ -52,7 +52,7 @@ public:
 
     void timePassed();
 
-    void assignCabToDriver(int driverID, int CabID);
+    Cab* assignCabToDriver(int driverID, int CabID);
 
 };
 

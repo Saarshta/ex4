@@ -20,35 +20,11 @@ MainFlow::MainFlow(int sizeX, int sizeY, vector<Point> obstacles) {
 
 
 void MainFlow::run(char** argv){
-
-    Udp udp(1, atoi(argv[1]));
-    udp.initialize();
-    this->taxiCenter->setUdp(&udp);
+    Socket* udp = new Udp(1, atoi(argv[1]));
+    udp->initialize();
+    this->taxiCenter->setUdp(udp);
     char buffer[4096];
     char* end = buffer+4095;
-
-    /*
-     * Testing serialization
-     */
-    Point p(1,5);
-
-    std::string serial_str;
-    boost::iostreams::back_insert_device<std::string> inserter(serial_str);
-    boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s(inserter);
-    boost::archive::binary_oarchive oa(s);
-    oa << p;
-    s.flush();
-
-
-    cout << serial_str << endl;
-
-    boost::iostreams::basic_array_source<char> device(buffer, end);
-    boost::iostreams::stream<boost::iostreams::basic_array_source<char> > s2(device);
-    boost::archive::binary_iarchive ia(s2);
-    ia >> p;
-
-    cout << p << endl;
-
 
     int option;
     char blank;
@@ -61,24 +37,37 @@ void MainFlow::run(char** argv){
             {
                 int driversNum;
                 cin >> driversNum;
-                udp.reciveData(buffer, sizeof(buffer));
+                udp->reciveData(buffer, sizeof(buffer));
                 cout << buffer << endl;
-                // We received a driver, need to deserialize and create driver object.
-
+                // Receiving driver from client.
+                Driver* driver;
+                udp->reciveData(buffer, sizeof(buffer));
+                boost::iostreams::basic_array_source<char> device(buffer, end);
+                boost::iostreams::stream<boost::iostreams::basic_array_source<char> > s2(device);
+                boost::archive::binary_iarchive ia(s2);
+                ia >> driver;
+                // Setting map for driver.
+                Point startPos(0,0);
+                driver->setMap(map);
+                // Setting driver starting point.
+                driver->setCurrPos(map->getNode(&startPos));
+                // Adding the driver to taxiCenter.
+                this->taxiCenter->addDriver(driver);
+                Cab* cab = this->taxiCenter->assignCabToDriver(driver->getId(), driver->getCabID());
                 // we find a cab to driver
                 // we set map and cab to driver
                 // we add the driver to drivers list in taxicenter
                 //send the cab and the map to client
-                udp.sendData("The serialized cab");
-                udp.sendData("The serialized map");
+                // Sending cab to client.
+                std::string serial_str;
+                boost::iostreams::back_insert_device<std::string> inserter(serial_str);
+                boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s(inserter);
+                boost::archive::binary_oarchive oa(s);
+                oa << (cab);
+                s.flush();
+                udp->sendData(serial_str);
 
-
-//                Point startPos(0, 0);
-//                Driver *driver = new Driver(id, age, marital, exp,
-//                                            map->getNode(&startPos), &mapListener, map);
-//                this->taxiCenter->addDriver(driver);
-//                this->taxiCenter->assignCabToDriver(id, cabID);
-//                break;
+                break;
             }
             case 2: // add a trip to taxiCenter as call
             {
@@ -171,7 +160,7 @@ void MainFlow::run(char** argv){
                 //drive drivers with trips time < current time
                 this->taxiCenter->drive();
                 //update client to move one step
-                udp.sendData("serialized time");
+                udp->sendData("serialized time");
                 break;
             }
             default: //ignoring non valid options.

@@ -5,9 +5,11 @@
 #include "DriverOperator.h"
 
 
-DriverOperator::DriverOperator() {
+DriverOperator::DriverOperator(Socket *udp) : udp(udp) {
     driver = 0;
-};
+    char buffer[4096];
+    end = buffer + 4095;
+}
 
 void DriverOperator::initializeDriver() {
     int id, age, exp, cabID;
@@ -34,4 +36,36 @@ void DriverOperator::initializeDriver() {
             throw invalid_argument("marital status is invalid");
     }
     this->driver = new Driver(id, age, marital, exp, cabID);
+}
+
+Driver *DriverOperator::getDriver() const {
+    return driver;
+}
+
+DriverOperator::~DriverOperator() {
+    delete udp;
+    delete driver;
+}
+
+void DriverOperator::sendDriver() {
+
+    std::string serial_str;
+    boost::iostreams::back_insert_device<std::string> inserter(serial_str);
+    boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s(inserter);
+    boost::archive::binary_oarchive oa(s);
+    oa << (this->driver);
+    s.flush();
+    udp->sendData(serial_str);
+
+}
+
+void DriverOperator::receiveCab() {
+
+    Cab* cab = 0;
+    udp->reciveData(buffer, sizeof(buffer));
+    boost::iostreams::basic_array_source<char> device(buffer, end);
+    boost::iostreams::stream<boost::iostreams::basic_array_source<char> > s2(device);
+    boost::archive::binary_iarchive ia(s2);
+    ia >> cab;
+    this->driver->setCab(cab);
 }

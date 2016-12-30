@@ -25,6 +25,9 @@ Trip::Trip(int id, AbstractNode* startNode, AbstractNode* endNode,
     currMeters = 0;
 }
 
+Trip::Trip() {
+}
+
 /**
  * avgSatisfaction the trip's passenger's average satisfaction.
  * @return

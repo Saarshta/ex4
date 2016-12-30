@@ -15,6 +15,10 @@ Passenger::Passenger(AbstractNode *start, AbstractNode *end) : start(start), end
     satisfaction = -1;
 }
 
+Passenger::Passenger() {
+
+}
+
 /**
  * generateRandomSatisfaction - generates a random satisfaction value.
  * @return a random satisfaction value which will be used by the Driver.

@@ -95,3 +95,5 @@ bool AbstractNode::isIsObst() const {
 void AbstractNode::setIsObst(bool isObst) {
     AbstractNode::isObst = isObst;
 }
+
+BOOST_SERIALIZATION_ASSUME_ABSTRACT(AbstractNode);

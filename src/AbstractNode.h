@@ -8,6 +8,21 @@
 
 #include <vector>
 #include <iostream>
+#include <fstream>
+#include <sstream>
+#include <boost/archive/text_oarchive.hpp>
+#include <boost/archive/text_iarchive.hpp>
+#include <boost/tokenizer.hpp>
+#include <boost/algorithm/string/predicate.hpp>
+#include <boost/lexical_cast.hpp>
+#include <boost/assign/list_of.hpp>
+#include <boost/algorithm/string.hpp>
+#include <boost/iostreams/device/back_inserter.hpp>
+#include <boost/iostreams/stream.hpp>
+#include <boost/archive/binary_oarchive.hpp>
+#include <boost/archive/binary_iarchive.hpp>
+#include <boost/serialization/base_object.hpp>
+#include <boost/serialization/export.hpp>
 using namespace std;
 
 /**
@@ -16,10 +31,20 @@ using namespace std;
  * a data structure.
  */
 class AbstractNode {
+
+    friend class boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive &ar, const unsigned int version)
+    {
+        //ar & distance;
+        //ar & prevNode;
+        //ar & currNeighboursNum;
+    }
 private:
     int distance;
     AbstractNode* prevNode;
     int currNeighboursNum;
+
 
 protected:
     virtual ostream& print(ostream& os) const= 0;
@@ -40,6 +65,5 @@ public:
     bool isIsObst() const;
     void setIsObst(bool isObst);
 };
-
 
 #endif //EX1_ADV_PROGRAMMING_ABSTRACTNODE_H

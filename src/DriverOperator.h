@@ -7,13 +7,26 @@
 
 
 #include "Driver.h"
+#include "Socket.h"
 
 class DriverOperator {
 private:
     Driver* driver;
+    Socket* udp;
 public:
-    DriverOperator();
+    DriverOperator(Socket* udp);
+
+    virtual ~DriverOperator();
+
     void initializeDriver();
+    Driver *getDriver() const;
+    char buffer[4096];
+    char* end;
+
+    void sendDriver();
+
+    void receiveCab();
+
 };
 
 

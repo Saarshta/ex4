@@ -9,11 +9,25 @@
 #include "AbstractNode.h"
 #include "Passenger.h"
 #include <stdexcept>
+#include <boost/serialization/vector.hpp>
 
 /**
  * Trip.
  */
 class Trip {
+
+    friend class boost::serialization::access;
+
+    template<class Archive>
+    void serialize(Archive &ar, const unsigned int version)
+    {
+        ar & id;
+        ar & startNode;
+        ar & endNode;
+        ar & tariff;
+        ar & passengers;
+        ar & startingTime;
+    }
 private:
     int id;
     int currMeters;
@@ -32,6 +46,7 @@ public:
     int getPassNum();
     AbstractNode* getEnd();
     AbstractNode* getStart();
+    Trip();
 
     int getStartingTime() const;
 

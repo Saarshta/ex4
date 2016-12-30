@@ -88,6 +88,15 @@ void TaxiCenter::drive() {
     //for now just put the end pos of trip in curr pos.
     for (int i = 0; i < drivers.size(); i++) {
         drivers[i]->moveOneStep(currentTime);
+        // Serialize and send new location of driver.
+        AbstractNode* node = drivers[i]->getCurrPos();
+        std::string serial_str;
+        boost::iostreams::back_insert_device<std::string> inserter(serial_str);
+        boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s(inserter);
+        boost::archive::binary_oarchive oa(s);
+        oa << (node);
+        s.flush();
+        udp->sendData(serial_str);
     }
 
 }
@@ -119,9 +128,10 @@ void TaxiCenter::addCall(int id, AbstractPoint* start, AbstractPoint* end,
  * @param driverID the driver's ID.
  * @param CabID the cab's ID.
  */
-void TaxiCenter::assignCabToDriver(int driverID, int cabID){
+Cab* TaxiCenter::assignCabToDriver(int driverID, int cabID){
     Driver* driver = getDriverByID(driverID);
     driver->setCab(getCabByID(cabID));
+    return getCabByID(cabID);
 }
 /**
  * getCabByID - get a specific cab by it's ID.
@@ -204,7 +214,7 @@ void TaxiCenter::timePassed() {
     this->currentTime += 1;
 }
 
-void TaxiCenter::setUdp(Udp *udp) {
+void TaxiCenter::setUdp(Socket *udp) {
     TaxiCenter::udp = udp;
 }
 

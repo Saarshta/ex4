@@ -17,6 +17,18 @@
 #include "Bfs.h"
 
 class Driver {
+
+    friend class boost::serialization::access;
+
+    template<class Archive>
+    void serialize(Archive &ar, const unsigned int version)
+    {
+        ar & id;
+        ar & age;
+        ar & marital;
+        ar & exp;
+        ar & cabID;
+    }
 private:
     int id;
     int age;
@@ -42,6 +54,7 @@ private:
 public:
     Driver(int id, int age, Status marital, int exp,
            int cabID);
+    Driver();
 
     void setAge(int age);
     void setMarital(Status marital);
@@ -51,6 +64,10 @@ public:
     bool setCurrTrip(Trip *newTrip);
     void setIsAvailable(bool isAvailable);
     void setMap(Map* map);
+
+    void setCurrPos(AbstractNode *currPos);
+
+    int getCabID() const;
 
     int getId() const;
     int getAge() const;

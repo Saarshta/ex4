@@ -22,7 +22,6 @@
 #include <boost/archive/binary_iarchive.hpp>
 using namespace std;
 using namespace boost::archive;
-std::stringstream ss;
 /**
  * Class Point
  * represents a point, including X and Y axis values.

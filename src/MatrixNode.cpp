@@ -95,6 +95,4 @@ ostream& MatrixNode::print(ostream& os) const {
     return os << nodeLocation;
 }
 
-
-
-
+BOOST_CLASS_EXPORT(MatrixNode)

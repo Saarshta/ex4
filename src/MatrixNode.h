@@ -17,12 +17,23 @@ using namespace std;
  * Is a node within the grid.
  */
 class MatrixNode : public AbstractNode {
+
 private:
+
     Point nodeLocation;
     std::vector<AbstractNode*> neighbours;
+    friend class boost::serialization::access;
+
+    template<class Archive>
+    void serialize(Archive &ar, const unsigned int version)
+    {
+        ar & boost::serialization::base_object<AbstractNode>(*this);
+        ar & nodeLocation;
+    }
 
 protected:
     virtual ostream& print(ostream& os) const;
+
 public:
     MatrixNode(const Point& nodePoint);
     MatrixNode();
@@ -33,7 +44,6 @@ public:
     int getY();
     bool operator==(const AbstractNode& other);
     bool operator!=(const AbstractNode& other);
-
 
 };
 
