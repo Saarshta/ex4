@@ -37,8 +37,6 @@ void MainFlow::run(char** argv){
             {
                 int driversNum;
                 cin >> driversNum;
-                udp->reciveData(buffer, sizeof(buffer));
-                cout << buffer << endl;
                 // Receiving driver from client.
                 Driver* driver;
                 udp->reciveData(buffer, sizeof(buffer));
@@ -159,8 +157,6 @@ void MainFlow::run(char** argv){
                 this->taxiCenter->timePassed();
                 //drive drivers with trips time < current time
                 this->taxiCenter->drive();
-                //update client to move one step
-                udp->sendData("serialized time");
                 break;
             }
             default: //ignoring non valid options.

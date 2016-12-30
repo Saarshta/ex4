@@ -50,10 +50,16 @@ bool TaxiCenter::findClosestDriver(Trip* call){
         // starting location.
         if(drivers[i]->getCurrPos()==call->getStart() && drivers[i]->isIsAvailable()) {
             isSetTripAvailable = drivers[i]->setCurrTrip(call);
-            //remove this call from opencalls list.
             if (isSetTripAvailable) {
                 //serialize the trip and send to client through udp
-                this->udp->sendData("the serialized trip");
+                std::string serial_str;
+                boost::iostreams::back_insert_device<std::string> inserter(serial_str);
+                boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s(inserter);
+                boost::archive::binary_oarchive oa(s);
+                oa << (call);
+                s.flush();
+                udp->sendData(serial_str);
+                //remove this call from opencalls list.
                 removeCall(call->getId());
                 //mark driver as unavailable
                 drivers[i]->setIsAvailable(false);

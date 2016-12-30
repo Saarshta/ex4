@@ -64,6 +64,7 @@ public:
     bool setCurrTrip(Trip *newTrip);
     void setIsAvailable(bool isAvailable);
     void setMap(Map* map);
+    void setClientTrip(Trip* trip);
 
     void setCurrPos(AbstractNode *currPos);
 

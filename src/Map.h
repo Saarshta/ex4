@@ -12,18 +12,6 @@
  * Map object.
  */
 class Map {
-    friend class boost::serialization::access;
-
-    template<class Archive>
-    void serialize(Archive &ar, const unsigned int version)
-    {
-        ar & id;
-        ar & startNode;
-        ar & endNode;
-        ar & tariff;
-        ar & passengers;
-        ar & startingTime;
-    }
 private:
     Matrix* map;
     std::vector<Point> obstacles;

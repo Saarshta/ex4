@@ -13,6 +13,8 @@ class DriverOperator {
 private:
     Driver* driver;
     Socket* udp;
+    char buffer[4096];
+    char* end;
 public:
     DriverOperator(Socket* udp);
 
@@ -20,12 +22,14 @@ public:
 
     void initializeDriver();
     Driver *getDriver() const;
-    char buffer[4096];
-    char* end;
+    bool isActiveTrip();
 
     void sendDriver();
 
     void receiveCab();
+
+    void updateLocation();
+    void updateTrip();
 
 };
 

@@ -14,7 +14,8 @@ int main(int argc, char *argv[]) {
     cout << argv[2] << endl;
     Socket* udp = new Udp(0, atoi(argv[2]));
     udp->initialize();
-    char buffer[1024];
+    char buffer[4096];
+    char* end = buffer + 4095;
 
 //    AbstractNode* startNode = new MatrixNode(Point(0,0));
 //    AbstractNode* endNode = new MatrixNode(Point(2,2));
@@ -30,35 +31,36 @@ int main(int argc, char *argv[]) {
 
     DriverOperator driverOperator(udp);
     driverOperator.initializeDriver(); // wait for input
+    // Sending the serialized driver.
     driverOperator.sendDriver();
+    // Receiving a cab.
     driverOperator.receiveCab();
 
     // create and serialize driver into buffer
 
 
-//    udp->sendData("the serialized driver");
-//    udp->reciveData(buffer, sizeof(buffer)); // get serialized cab
-//    cout << buffer << endl;
-//    udp->reciveData(buffer, sizeof(buffer)); // get serialized map
-//    cout << buffer << endl;
-//
-//    //deserialize cab and map and set into driver
-//
 //    while(true) {
+//        // Receiving input from server.
 //        udp->reciveData(buffer, sizeof(buffer));
-//        cout << buffer << endl;//test trip
-//        udp->reciveData(buffer, sizeof(buffer));
-//        cout << buffer << endl;//test time
-//        break;
-//        // if we got 7 then break
-//        // if currentTrip is null wait for trip
-//            //deserelize trip and set into driver
-//
-//        // else we wait for move (get current time)
-//            //this.driver.move(time)
-//
-//
-//
-//    }
+//        // Check if it's 7, if it is, break
+//        // Otherwise:
+//        if (driverOperator.isActiveTrip()) {
+//            driverOperator.updateLocation(buffer, end);
+//        }
+//        else {
+//            driverOperator.updateTrip(buffer, end);
+//        }
+//        cout << driverOperator.getDriver()->getCurrPos() << "!!" << endl;
+        // if we got 7 then break
+        // if currentTrip is null wait for trip
+            //deserelize trip and set into driver
+
+        // else we wait for move (get current time)
+            //this.driver.move(time)
+
+
+
+    //}
+    delete udp;
     return 0;
 }

@@ -143,6 +143,10 @@ bool Driver::setCurrTrip(Trip *newTrip) {
     return false;
 }
 
+void Driver::setClientTrip(Trip *newTrip) {
+    this->currTrip = newTrip;
+}
+
 
 /**
  * setIsAvailable - updates the driver's availability.

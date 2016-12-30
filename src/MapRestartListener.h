@@ -14,6 +14,7 @@
 class MapRestartListener {
 private:
     Map* map;
+
 public:
     void restartMap();
 

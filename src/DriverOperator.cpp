@@ -7,7 +7,6 @@
 
 DriverOperator::DriverOperator(Socket *udp) : udp(udp) {
     driver = 0;
-    char buffer[4096];
     end = buffer + 4095;
 }
 
@@ -36,6 +35,8 @@ void DriverOperator::initializeDriver() {
             throw invalid_argument("marital status is invalid");
     }
     this->driver = new Driver(id, age, marital, exp, cabID);
+    AbstractNode* startNode = new MatrixNode(Point(0,0));
+    this->driver->setCurrPos(startNode);
 }
 
 Driver *DriverOperator::getDriver() const {
@@ -61,11 +62,36 @@ void DriverOperator::sendDriver() {
 
 void DriverOperator::receiveCab() {
 
-    Cab* cab = 0;
+    Cab* cab;
     udp->reciveData(buffer, sizeof(buffer));
     boost::iostreams::basic_array_source<char> device(buffer, end);
     boost::iostreams::stream<boost::iostreams::basic_array_source<char> > s2(device);
     boost::archive::binary_iarchive ia(s2);
     ia >> cab;
     this->driver->setCab(cab);
+}
+
+void DriverOperator::updateLocation() {
+    AbstractNode* node = 0;
+    boost::iostreams::basic_array_source<char> device(buffer, end);
+    boost::iostreams::stream<boost::iostreams::basic_array_source<char> > s2(device);
+    boost::archive::binary_iarchive ia(s2);
+    ia >> node;
+    this->driver->setCurrPos(node);
+}
+
+void DriverOperator::updateTrip() {
+    Trip* trip = 0;
+    boost::iostreams::basic_array_source<char> device(buffer, end);
+    boost::iostreams::stream<boost::iostreams::basic_array_source<char> > s2(device);
+    boost::archive::binary_iarchive ia(s2);
+    ia >> trip;
+    this->driver->setClientTrip(trip);
+}
+
+bool DriverOperator::isActiveTrip() {
+    if (this->driver->getCurrTrip() == NULL) {
+        return false;
+    }
+    return true;
 }
