@@ -205,4 +205,8 @@ void TaxiCenter::setUdp(Udp *udp) {
     TaxiCenter::udp = udp;
 }
 
+int TaxiCenter::getCurrentTime() const {
+    return currentTime;
+}
+
 

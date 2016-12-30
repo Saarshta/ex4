@@ -5,6 +5,7 @@
 #include "MainFlow.h"
 
 
+
 /**
  * MainFlow constructor.
  * @param sizeX the program's TaxiCenter's map X size.
@@ -158,12 +159,14 @@ void MainFlow::run(char** argv){
             case 9: // move all drivers one step
             {
 
-                //attach calls to drivers and update client through udp
+                //attach calls to drivers and update client trip through udp
                 this->taxiCenter->handleOpenCalls();
                 // update hour passed in server current time
                 this->taxiCenter->timePassed();
-                //drive all drivers to their destination
+                //drive drivers with trips time < current time
                 this->taxiCenter->drive();
+                //update client to move one step
+                udp.sendData("serialized time");
                 break;
             }
             default: //ignoring non valid options.

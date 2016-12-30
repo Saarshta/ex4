@@ -34,6 +34,9 @@ private:
 public:
     TaxiCenter(Map *map);
     virtual ~TaxiCenter();
+
+    int getCurrentTime() const;
+
     const vector<Cab *> &getCabs() const;
     const vector<Trip *> &getOpenCalls() const;
     const vector<Driver *> &getDrivers() const;
