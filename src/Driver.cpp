@@ -198,6 +198,11 @@ void Driver::moveOneStep(){
         currPos = trail.top();
         trail.pop();
     }
+    else {
+        delete currTrip;
+        currTrip = NULL;
+        isAvailable = true;
+    }
 }
 
 /**
@@ -238,23 +243,7 @@ Driver::~Driver() {
 
 }
 
-/**
- * drive - makes the drive execute the trip.
- */
-void Driver::drive() {
-    if (currTrip == NULL) {
-        return;
-    }
-    // Execute the trip.
-    while (trail.size() != 0) {
-        moveOneStep();
-    }
-    // When the trip is done, delete it.
-    delete currTrip;
-    currTrip = NULL;
-    isAvailable = true;
 
-}
 
 void Driver::setMap(Map* map) {
     this->map = map;

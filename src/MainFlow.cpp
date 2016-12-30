@@ -3,7 +3,6 @@
 //
 
 #include "MainFlow.h"
-#include "Udp.h"
 
 
 /**
@@ -24,6 +23,7 @@ void MainFlow::run(char** argv){
     char blank;
     Udp udp(1, atoi(argv[1]));
     udp.initialize();
+    this->taxiCenter->setUdp(&udp);
     char buffer[1024];
     MapRestartListener mapListener(map);
     do{
@@ -85,11 +85,9 @@ void MainFlow::run(char** argv){
                 cin >> tripID >> blank >> startX >> blank >> startY >> blank >> endX >> blank >> endY >> blank
                     >> passNum >> blank >> tariff;
                 vector<Passenger *> passengers;
-                // Serialize trip here
                 Point startOfTrip(startX, startY);
                 Point endOfTrip(endX, endY);
                 this->taxiCenter->addCall(tripID, &startOfTrip, &endOfTrip, passengers, tariff);
-                udp.sendData("The serialized cab");
                 break;
             }
             case 3: // add a cab
@@ -157,10 +155,13 @@ void MainFlow::run(char** argv){
                 cout << *(driverToPrint->getCurrPos()) << endl;
                 break;
             }
-            case 6: // drive all drivers
+            case 9: // move all drivers one step
             {
-                //attach calls to drivers
+
+                //attach calls to drivers and update client through udp
                 this->taxiCenter->handleOpenCalls();
+                // update hour passed in server current time
+                this->taxiCenter->timePassed();
                 //drive all drivers to their destination
                 this->taxiCenter->drive();
                 break;

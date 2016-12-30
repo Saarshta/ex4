@@ -16,9 +16,9 @@
  * @return nothing.
  */
 Trip::Trip(int id, AbstractNode* startNode, AbstractNode* endNode,
-           float tariff, const vector<Passenger *> &passengers) :
+           float tariff, const vector<Passenger *> &passengers, int startingTime) :
         id(id), startNode(startNode), endNode(endNode), tariff(tariff),
-        passengers(passengers) {
+        passengers(passengers), startingTime(startingTime) {
     // Checking validity of ID and tariff.
     validate(id, tariff);
     passNum =(int) passengers.size();

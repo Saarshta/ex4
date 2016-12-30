@@ -23,10 +23,11 @@ private:
     float tariff;
     vector<Passenger*> passengers;
     void validate(int id, float tariff);
+    int startingTime;
 
 public:
     Trip(int id, AbstractNode *startNode, AbstractNode *endNode, float tariff,
-          const vector<Passenger *> &passengers);
+          const vector<Passenger *> &passengers, int startingTime);
     float avgSatisfaction();
     int getPassNum();
     AbstractNode* getEnd();

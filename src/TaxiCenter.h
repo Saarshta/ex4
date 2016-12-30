@@ -10,6 +10,7 @@
  */
 
 #include "Driver.h"
+#include "Udp.h"
 
 class Driver;
 class Cab;
@@ -20,7 +21,13 @@ private:
     Map* map;
     vector<Driver*> drivers;
     vector<Cab*> cabs;
+    int currentTime;
+public:
+    void setUdp(Udp *udp);
+
+private:
     vector<Trip*> openCalls;
+    Udp* udp;
 
     void removeCall(int CallID);
     bool findClosestDriver(Trip* call);
@@ -38,6 +45,8 @@ public:
     void addCab(Cab* newCab);
     void handleOpenCalls();
     void drive();
+
+    void timePassed();
 
     void assignCabToDriver(int driverID, int CabID);
 

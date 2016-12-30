@@ -11,6 +11,8 @@
  * @return nothing.
  */
 TaxiCenter::TaxiCenter(Map *map) : map(map) {
+    this->udp = NULL;
+    currentTime = 0;
 }
 
 /**
@@ -50,6 +52,8 @@ bool TaxiCenter::findClosestDriver(Trip* call){
             isSetTripAvailable = drivers[i]->setCurrTrip(call);
             //remove this call from opencalls list.
             if (isSetTripAvailable) {
+                //serialize the trip and send to client through udp
+                this->udp->sendData("the serialized trip");
                 removeCall(call->getId());
                 //mark driver as unavailable
                 drivers[i]->setIsAvailable(false);
@@ -66,6 +70,7 @@ bool TaxiCenter::findClosestDriver(Trip* call){
  */
 void TaxiCenter::handleOpenCalls() {
     for (int i = 0; i < openCalls.size(); i++) {
+        // check if trip time is now!
         if (findClosestDriver(openCalls[i])) {
             // Decrementing i, because we deleted the trip from the
             // list, so the list became smaller.
@@ -80,7 +85,7 @@ void TaxiCenter::handleOpenCalls() {
 void TaxiCenter::drive() {
     //for now just put the end pos of trip in curr pos.
     for (int i = 0; i < drivers.size(); i++) {
-        drivers[i]->drive();
+        drivers[i]->moveOneStep();
     }
 
 }
@@ -190,6 +195,14 @@ TaxiCenter::~TaxiCenter() {
     openCalls.clear();
     drivers.clear();
 
+}
+
+void TaxiCenter::timePassed() {
+    this->currentTime += 1;
+}
+
+void TaxiCenter::setUdp(Udp *udp) {
+    TaxiCenter::udp = udp;
 }
 
 

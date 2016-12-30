@@ -62,7 +62,6 @@ public:
     Trip *getCurrTrip() const;
     AbstractNode *getCurrPos() const;
 
-    void drive();
 
     bool isIsAvailable() const;
 
