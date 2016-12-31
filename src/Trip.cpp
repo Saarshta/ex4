@@ -83,3 +83,7 @@ void Trip::validate(int id, float tariff) {
 int Trip::getStartingTime() const {
     return startingTime;
 }
+
+void Trip::setPassNum(int passNum) {
+    Trip::passNum = passNum;
+}

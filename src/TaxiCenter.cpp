@@ -98,8 +98,6 @@ void TaxiCenter::drive() {
     for (int i = 0; i < drivers.size(); i++) {
         if (!(drivers[i]->getCurrTrip() == NULL)) {
 
-            //test
-            cout << "trip isnt null, it is :" << drivers[i]->getCurrTrip() << endl;
             drivers[i]->moveOneStep(currentTime);
             // Serialize and send new location of driver.
             AbstractNode *node = drivers[i]->getCurrPos();

@@ -25,10 +25,8 @@ void MainFlow::run(char** argv){
     this->taxiCenter->setUdp(udp);
     char buffer[4096];
     char* end = buffer+4095;
-
     int option;
     char blank;
-
     MapRestartListener mapListener(map);
     do{
         cin >> option;

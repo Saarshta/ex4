@@ -135,8 +135,6 @@ bool Driver::setCurrTrip(Trip *newTrip) {
     // Restarting the map's node's distances to -1, marking as unvisited.
     mapListener->restartMap();
     if (trailStack.size() != 0) {
-        //test
-        cout <<"i got a new trip yahooo"<< endl;
         currTrip = newTrip;
         trail = trailStack;
         isAvailable = false;
@@ -186,10 +184,10 @@ Driver::Driver(int id, int age, Status marital, int exp, int cabID) : id(id), ag
     totalCostumersNumber = 0;
     avgCostumersSat = 0;
     cab = NULL;
-    currPos = NULL;
     map = NULL;
     mapListener = NULL;
     currTrip = NULL;
+    currPos = NULL;
     isAvailable = true;
 }
 
@@ -224,8 +222,6 @@ void Driver::moveOneStep(int time){
     }
      if(trail.size() == 1) {
          trail.pop();
-        //test
-        cout << " put null in trip"<<endl;
         delete currTrip;
         currTrip = NULL;
         isAvailable = true;
@@ -266,10 +262,10 @@ Driver::~Driver() {
     // If the driver has an undeleted trip, delete it.
     if ((currTrip != 0)) {
         delete currTrip;
-
     }
-
-
+    if ((mapListener != 0)) {
+        delete mapListener;
+    }
 
 }
 

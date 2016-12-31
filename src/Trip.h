@@ -48,6 +48,8 @@ public:
     AbstractNode* getStart();
     Trip();
 
+    void setPassNum(int passNum);
+
     int getStartingTime() const;
 
     int getId() const;

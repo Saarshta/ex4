@@ -50,8 +50,8 @@ protected:
     virtual ostream& print(ostream& os) const= 0;
     void increaseNeighboursNum();
     AbstractNode();
-    virtual ~AbstractNode();
     bool isObst;
+    virtual ~AbstractNode();
 public:
     virtual std::vector<AbstractNode*> getNeighbours()= 0;
     virtual bool operator==(const AbstractNode& other)= 0;
@@ -64,6 +64,7 @@ public:
     int getNeighboursNum();
     bool isIsObst() const;
     void setIsObst(bool isObst);
+
 };
 
 #endif //EX1_ADV_PROGRAMMING_ABSTRACTNODE_H

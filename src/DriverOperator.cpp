@@ -15,8 +15,10 @@ void DriverOperator::initializeDriver() {
     char blank;
     char maritalSign;
     Status marital;
+    cout << "HELLO" << endl;
     cin >> id >> blank >> age >> blank >> maritalSign >> blank >>
         exp >> blank >> cabID;
+    cout << "BYE" << endl;
     switch (maritalSign) {
         // Options are Widowed, Divorced, Single, Married.
         case 'W':
@@ -34,9 +36,10 @@ void DriverOperator::initializeDriver() {
         default:
             throw invalid_argument("marital status is invalid");
     }
-    this->driver = new Driver(id, age, marital, exp, cabID);
     AbstractNode* startNode = new MatrixNode(Point(0,0));
+    this->driver = new Driver(id, age, marital, exp, cabID);
     this->driver->setCurrPos(startNode);
+    cout << "HELLO";
 }
 
 Driver *DriverOperator::getDriver() const {
