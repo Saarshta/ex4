@@ -25,3 +25,5 @@ int LuxuryCab::getType() {
 LuxuryCab::~LuxuryCab() {
 
 }
+
+BOOST_CLASS_EXPORT(LuxuryCab)

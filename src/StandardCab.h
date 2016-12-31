@@ -13,6 +13,18 @@
  */
 class StandardCab : public Cab{
 
+    friend class boost::serialization::access;
+
+    template<class Archive>
+    void serialize(Archive &ar, const unsigned int version)
+    {
+        ar & boost::serialization::base_object<Cab>(*this);
+        ar & id;
+        ar & manu;
+        ar & color;
+        ar & speed;
+    }
+
 public:
     StandardCab(int id, Manufacturer manu, Color color);
     virtual int getType();

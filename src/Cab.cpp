@@ -87,4 +87,7 @@ Cab::~Cab() {
 
 }
 
+BOOST_SERIALIZATION_ASSUME_ABSTRACT(Cab);
+
+
 

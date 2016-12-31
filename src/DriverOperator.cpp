@@ -62,13 +62,15 @@ void DriverOperator::sendDriver() {
 
 void DriverOperator::receiveCab() {
 
-    Cab* cab;
+    Cab* cab = 0;
     udp->reciveData(buffer, sizeof(buffer));
     boost::iostreams::basic_array_source<char> device(buffer, end);
     boost::iostreams::stream<boost::iostreams::basic_array_source<char> > s2(device);
     boost::archive::binary_iarchive ia(s2);
     ia >> cab;
     this->driver->setCab(cab);
+    //test
+    cout << cab->getId();
 }
 
 void DriverOperator::updateLocation() {
@@ -78,6 +80,8 @@ void DriverOperator::updateLocation() {
     boost::archive::binary_iarchive ia(s2);
     ia >> node;
     this->driver->setCurrPos(node);
+    //test
+    cout << node << endl;
 }
 
 void DriverOperator::updateTrip() {
@@ -87,11 +91,14 @@ void DriverOperator::updateTrip() {
     boost::archive::binary_iarchive ia(s2);
     ia >> trip;
     this->driver->setClientTrip(trip);
+    //test
+    cout << trip->getId() << endl;
 }
-
+/**
+ * isActiveTrip - check if the driver has a trip.
+ * @return true if the driver has a trip, false otherwise.
+ */
 bool DriverOperator::isActiveTrip() {
-    if (this->driver->getCurrTrip() == NULL) {
-        return false;
-    }
-    return true;
+
+    return !this->driver->getCurrTrip() == NULL;
 }
