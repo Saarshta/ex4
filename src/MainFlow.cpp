@@ -44,13 +44,12 @@ void MainFlow::run(char** argv){
                 boost::iostreams::stream<boost::iostreams::basic_array_source<char> > s2(device);
                 boost::archive::binary_iarchive ia(s2);
                 ia >> driver;
-                //test
-                cout << "we got the driver" << endl;
-                // Setting map for driver.
+
+                // Setting map , starting point
                 Point startPos(0,0);
                 driver->setMap(map);
-                // Setting driver starting point.
                 driver->setCurrPos(map->getNode(&startPos));
+
                 // Adding the driver to taxiCenter.
                 this->taxiCenter->addDriver(driver);
                 Cab* cab = this->taxiCenter->assignCabToDriver(driver->getId(), driver->getCabID());
@@ -65,8 +64,6 @@ void MainFlow::run(char** argv){
                 boost::archive::binary_oarchive oa(s);
                 oa << (cab);
                 s.flush();
-                //test
-                cout << "sending cab" << endl;
                 udp->sendData(serial_str);
 
                 break;
@@ -167,6 +164,9 @@ void MainFlow::run(char** argv){
                 break;
         }
     }while(option!=7);
+
+    //send exit to client
+    udp->sendData("7");
 }
 /**
  * Destructor.

@@ -43,16 +43,16 @@ void TaxiCenter::removeCall(int callID){
  * @return the closest driver.
  */
 bool TaxiCenter::findClosestDriver(Trip* call){
-//for now only find the driver in start position and choose the first
+    //for now only find the driver in start position and choose the first
     bool isSetTripAvailable;
     for(int i=0; i< drivers.size(); i++){
         // Checking if the driver is available and if he's at the trip's
         // starting location.
         if(drivers[i]->getCurrPos()==call->getStart() && drivers[i]->isIsAvailable()) {
+
             isSetTripAvailable = drivers[i]->setCurrTrip(call);
             if (isSetTripAvailable) {
-                //test
-                cout << " call id is: " << call->getId() << endl;
+
                 //serialize the trip and send to client through udp
                 std::string serial_str;
                 boost::iostreams::back_insert_device<std::string> inserter(serial_str);
@@ -96,18 +96,22 @@ void TaxiCenter::handleOpenCalls() {
 void TaxiCenter::drive() {
     //for now just put the end pos of trip in curr pos.
     for (int i = 0; i < drivers.size(); i++) {
-        drivers[i]->moveOneStep(currentTime);
-        // Serialize and send new location of driver.
-        AbstractNode* node = drivers[i]->getCurrPos();
-        std::string serial_str;
-        boost::iostreams::back_insert_device<std::string> inserter(serial_str);
-        boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s(inserter);
-        boost::archive::binary_oarchive oa(s);
-        oa << (node);
-        s.flush();
-        udp->sendData(serial_str);
-    }
+        if (!(drivers[i]->getCurrTrip() == NULL)) {
 
+            //test
+            cout << "trip isnt null, it is :" << drivers[i]->getCurrTrip() << endl;
+            drivers[i]->moveOneStep(currentTime);
+            // Serialize and send new location of driver.
+            AbstractNode *node = drivers[i]->getCurrPos();
+            std::string serial_str;
+            boost::iostreams::back_insert_device<std::string> inserter(serial_str);
+            boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s(inserter);
+            boost::archive::binary_oarchive oa(s);
+            oa << (node);
+            s.flush();
+            udp->sendData(serial_str);
+        }
+    }
 }
 /**
  * addDriver - adds a new driver to the TaxiCenter.

@@ -24,6 +24,10 @@ public:
     Driver *getDriver() const;
     bool isActiveTrip();
 
+    void receivingData();
+
+    bool isDataEnd();
+
     void sendDriver();
 
     void receiveCab();

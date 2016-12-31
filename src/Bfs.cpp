@@ -70,3 +70,5 @@ std::stack<AbstractNode *> Bfs::calcTrail(AbstractNode *start, AbstractNode *end
     return stack;
 
 }
+
+BOOST_CLASS_EXPORT(Bfs)

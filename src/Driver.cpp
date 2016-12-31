@@ -135,6 +135,8 @@ bool Driver::setCurrTrip(Trip *newTrip) {
     // Restarting the map's node's distances to -1, marking as unvisited.
     mapListener->restartMap();
     if (trailStack.size() != 0) {
+        //test
+        cout <<"i got a new trip yahooo"<< endl;
         currTrip = newTrip;
         trail = trailStack;
         isAvailable = false;
@@ -144,6 +146,7 @@ bool Driver::setCurrTrip(Trip *newTrip) {
 }
 
 void Driver::setClientTrip(Trip *newTrip) {
+
     this->currTrip = newTrip;
 }
 
@@ -202,24 +205,27 @@ void Driver::setTrail(const stack<AbstractNode *> &trail) {
  * moveOneStep - moves one step on the trail.
  */
 void Driver::moveOneStep(int time){
-    if (currTrip == NULL) {
-        return;
-    }
-    if(trail.size()!=0) {
+//    if (currTrip == NULL) {
+//        return;
+//    }
+    if(trail.size()>1) {
         // Maybe only > ? need to check
         if (time - 1 >= currTrip->getStartingTime()) {
-            currPos = trail.top();
             trail.pop();
+            currPos = trail.top();
             //if cab type is luxury move 1 more step
             if(this->cab->getType() == 2 ){
-                if(trail.size()!=0){
-                    currPos = trail.top();
+                if(trail.size()>1){
                     trail.pop();
+                    currPos = trail.top();
                 }
             }
         }
     }
-    else {
+     if(trail.size() == 1) {
+         trail.pop();
+        //test
+        cout << " put null in trip"<<endl;
         delete currTrip;
         currTrip = NULL;
         isAvailable = true;
@@ -260,7 +266,10 @@ Driver::~Driver() {
     // If the driver has an undeleted trip, delete it.
     if ((currTrip != 0)) {
         delete currTrip;
+
     }
+
+
 
 }
 

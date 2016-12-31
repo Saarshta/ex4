@@ -15,6 +15,13 @@
  * between two given nodes, using the BFS algorithm.
  */
 class Bfs : public SearchAlgorithm {
+    friend class boost::serialization::access;
+
+    template<class Archive>
+    void serialize(Archive &ar, const unsigned int version)
+    {
+        ar & boost::serialization::base_object<SearchAlgorithm>(*this);
+    }
 
 public:
     std::stack<AbstractNode*> calcTrail(AbstractNode* start, AbstractNode* end);

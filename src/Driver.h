@@ -28,6 +28,8 @@ class Driver {
         ar & marital;
         ar & exp;
         ar & cabID;
+        ar & isAvailable;
+        ar & searchAlgorithm;
     }
 private:
     int id;
