@@ -167,6 +167,7 @@ void MainFlow::run(char** argv){
 
     //send exit to client
     udp->sendData("7");
+    delete udp;
 }
 /**
  * Destructor.
