@@ -87,6 +87,7 @@ void DriverOperator::updateLocation() {
 }
 
 void DriverOperator::updateTrip() {
+
     //test
     cout << "we enter to updatetrip!" << endl;
     Trip* trip = 0;
@@ -98,10 +99,7 @@ void DriverOperator::updateTrip() {
     //test
     cout << trip->getId() << endl;
 }
-/**
- * isActiveTrip - check if the driver has a trip.
- * @return true if the driver has a trip, false otherwise.
- */
+// check if driver has a trip
 bool DriverOperator::isActiveTrip() {
 
     return !this->driver->getCurrTrip() == NULL;
