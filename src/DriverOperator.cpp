@@ -62,6 +62,7 @@ void DriverOperator::sendDriver() {
 
 void DriverOperator::receiveCab() {
 
+
     Cab* cab = 0;
     udp->reciveData(buffer, sizeof(buffer));
     boost::iostreams::basic_array_source<char> device(buffer, end);
@@ -70,7 +71,8 @@ void DriverOperator::receiveCab() {
     ia >> cab;
     this->driver->setCab(cab);
     //test
-    cout << cab->getId();
+    cout << "cab id is:" ;
+    cout << cab->getId()<< endl;
 }
 
 void DriverOperator::updateLocation() {
@@ -85,6 +87,8 @@ void DriverOperator::updateLocation() {
 }
 
 void DriverOperator::updateTrip() {
+    //test
+    cout << "we enter to updatetrip!" << endl;
     Trip* trip = 0;
     boost::iostreams::basic_array_source<char> device(buffer, end);
     boost::iostreams::stream<boost::iostreams::basic_array_source<char> > s2(device);

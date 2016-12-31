@@ -29,4 +29,6 @@ StandardCab::~StandardCab() {
 
 }
 
+StandardCab::StandardCab(){};
+
 BOOST_CLASS_EXPORT(StandardCab)

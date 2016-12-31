@@ -15,6 +15,8 @@ class StandardCab : public Cab{
 
     friend class boost::serialization::access;
 
+
+private:
     template<class Archive>
     void serialize(Archive &ar, const unsigned int version)
     {
@@ -26,6 +28,7 @@ class StandardCab : public Cab{
     }
 
 public:
+    StandardCab();
     StandardCab(int id, Manufacturer manu, Color color);
     virtual int getType();
      ~StandardCab();

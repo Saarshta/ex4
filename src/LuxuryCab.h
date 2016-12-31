@@ -27,6 +27,7 @@ class LuxuryCab : public Cab{
 
 public:
      ~LuxuryCab();
+    LuxuryCab();
     virtual int getType();
     LuxuryCab(int id, Manufacturer manu, Color color);
 };

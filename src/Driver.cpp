@@ -210,6 +210,13 @@ void Driver::moveOneStep(int time){
         if (time - 1 >= currTrip->getStartingTime()) {
             currPos = trail.top();
             trail.pop();
+            //if cab type is luxury move 1 more step
+            if(this->cab->getType() == 2 ){
+                if(trail.size()!=0){
+                    currPos = trail.top();
+                    trail.pop();
+                }
+            }
         }
     }
     else {

@@ -34,33 +34,36 @@ int main(int argc, char *argv[]) {
     // Sending the serialized driver.
     driverOperator.sendDriver();
     // Receiving a cab.
+    //test
+    cout << "now we try to get cab" << endl;
     driverOperator.receiveCab();
 
-    // create and serialize driver into buffer
 
 
-//    while(true) {
-//        // Receiving input from server.
-//        udp->reciveData(buffer, sizeof(buffer));
-//        // Check if it's 7, if it is, break
-//        // Otherwise:
-//        if (driverOperator.isActiveTrip()) {
-//            driverOperator.updateLocation(buffer, end);
-//        }
-//        else {
-//            driverOperator.updateTrip(buffer, end);
-//        }
-//        cout << driverOperator.getDriver()->getCurrPos() << "!!" << endl;
-        // if we got 7 then break
-        // if currentTrip is null wait for trip
-            //deserelize trip and set into driver
+    while(true) {
+        // Receiving input from server.
+        udp->reciveData(buffer, sizeof(buffer));
+        // Check if it's 7, if it is, break
+        if (strcmp(buffer, "7") == 0) {
+            break;
+        }
+        // Otherwise: check if driver has a trip
+        if (driverOperator.isActiveTrip()) {
+            //we recieved a new location
+            //test
+            cout << "we looking for a new pos now" << endl;
+            driverOperator.updateLocation();
+        } else {
+            //we revieved a trip
+            //test
+            cout << "we looking for a trip now" << endl;
+            driverOperator.updateTrip();
+        }
+        //test current position
+        cout << driverOperator.getDriver()->getCurrPos() << "!!" << endl;
 
-        // else we wait for move (get current time)
-            //this.driver.move(time)
 
-
-
-    //}
+    }
     delete udp;
     return 0;
 }

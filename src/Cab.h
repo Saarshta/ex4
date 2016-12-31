@@ -48,7 +48,7 @@ protected:
     int speed;
 
     void validate(int id);
-
+    Cab();
     Cab(int id, Manufacturer manu, Color color, int speed);
 
 public:
