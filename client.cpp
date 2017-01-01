@@ -9,7 +9,6 @@
 using namespace std;
 
 int main(int argc, char *argv[]) {
-    std::cout << "Hello, from client" << std::endl;
 
     cout << argv[2] << endl;
     Socket* udp = new Udp(0, atoi(argv[2]));
@@ -29,7 +28,6 @@ int main(int argc, char *argv[]) {
         driverOperator.receivingData();
         // Check if it's 7, if it is, break
         if(driverOperator.isDataEnd()){
-            cout << "ok, bye bye"<< endl;
             break;
         }
         // Otherwise: check if driver has a trip
@@ -37,8 +35,6 @@ int main(int argc, char *argv[]) {
             //we recieved a new location
             driverOperator.updateLocation();
         } else {
-            //test
-            cout << "new trip"<<endl;
             //we revieved a trip
             driverOperator.updateTrip();
         }

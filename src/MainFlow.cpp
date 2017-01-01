@@ -51,7 +51,7 @@ void MainFlow::run(char** argv){
                 // Adding the driver to taxiCenter.
                 this->taxiCenter->addDriver(driver);
                 Cab* cab = this->taxiCenter->assignCabToDriver(driver->getId(), driver->getCabID());
-                // we find a cab to driver
+                // we find a cab to driver.
                 // we set map and cab to driver
                 // we add the driver to drivers list in taxicenter
                 //send the cab and the map to client

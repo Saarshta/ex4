@@ -65,6 +65,8 @@ public:
     bool isIsObst() const;
     void setIsObst(bool isObst);
 
+
+
 };
 
 #endif //EX1_ADV_PROGRAMMING_ABSTRACTNODE_H

@@ -95,4 +95,15 @@ ostream& MatrixNode::print(ostream& os) const {
     return os << nodeLocation;
 }
 
+Point* MatrixNode::getLocationPointer() {
+    return &(this->nodeLocation);
+}
+
+void MatrixNode::destroyLocation() {
+    delete &(this->nodeLocation);
+}
+
+MatrixNode::~MatrixNode() {
+}
+
 BOOST_CLASS_EXPORT(MatrixNode)

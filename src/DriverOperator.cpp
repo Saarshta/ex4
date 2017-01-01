@@ -36,10 +36,10 @@ void DriverOperator::initializeDriver() {
         default:
             throw invalid_argument("marital status is invalid");
     }
+
     AbstractNode* startNode = new MatrixNode(Point(0,0));
     this->driver = new Driver(id, age, marital, exp, cabID);
     this->driver->setCurrPos(startNode);
-    cout << "HELLO";
 }
 
 Driver *DriverOperator::getDriver() const {
@@ -48,6 +48,11 @@ Driver *DriverOperator::getDriver() const {
 
 DriverOperator::~DriverOperator() {
     delete udp;
+    delete (driver->getCab());
+    MatrixNode* tempNode = (MatrixNode*)this->driver->getCurrPos();
+    //tempNode->destroyLocation();
+    delete tempNode;
+    //delete this->driver->getCurrPos();
     delete driver;
 }
 
@@ -72,6 +77,7 @@ void DriverOperator::receiveCab() {
     boost::archive::binary_iarchive ia(s2);
     ia >> cab;
     this->driver->setCab(cab);
+
 }
 
 void DriverOperator::updateLocation() {
@@ -80,10 +86,13 @@ void DriverOperator::updateLocation() {
     boost::iostreams::stream<boost::iostreams::basic_array_source<char> > s2(device);
     boost::archive::binary_iarchive ia(s2);
     ia >> node;
+    MatrixNode* tempNode = (MatrixNode*)this->driver->getCurrPos();
+    //tempNode->destroyLocation();
+    delete tempNode;
+    //delete this->driver->getCurrPos();
     this->driver->setCurrPos(node);
     if (*(node) == *(this->driver->getCurrTrip()->getEnd())) {
-        //test
-        cout << "end of trip"<<endl;
+        delete (driver->getCurrTrip());
         this->driver->setClientTrip(0);
     }
 }

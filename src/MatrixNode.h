@@ -27,7 +27,8 @@ private:
     template<class Archive>
     void serialize(Archive &ar, const unsigned int version)
     {
-        ar & boost::serialization::base_object<AbstractNode>(*this);
+        ar & boost::serialization::make_nvp("AbstractNode",
+                                            boost::serialization::base_object<AbstractNode>(*this));
         ar & nodeLocation;
     }
 
@@ -37,7 +38,10 @@ protected:
 public:
     MatrixNode(const Point& nodePoint);
     MatrixNode();
+    ~MatrixNode();
     Point getLocation() const;
+    Point* getLocationPointer();
+    void destroyLocation();
     vector<AbstractNode*> getNeighbours();
     void addNeighbour(MatrixNode* neighbour);
     int getX();
