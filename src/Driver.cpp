@@ -258,7 +258,9 @@ void Driver::validate(int age, int exp,  int id) {
  * Default destructor for driver.
  */
 Driver::~Driver() {
-    delete searchAlgorithm;
+    if(searchAlgorithm!=0) {
+        delete searchAlgorithm;
+    }
     // If the driver has an undeleted trip, delete it.
     if ((currTrip != 0)) {
         delete currTrip;

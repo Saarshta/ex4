@@ -32,7 +32,11 @@ private:
     int x;
     int y;
     friend class boost::serialization::access;
-
+    /**
+     * serialize function for the Point class.
+     * @param ar
+     * @param version
+     */
     template<class Archive>
     void serialize(Archive &ar, const unsigned int version)
     {

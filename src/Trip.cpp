@@ -24,7 +24,10 @@ Trip::Trip(int id, AbstractNode* startNode, AbstractNode* endNode,
     passNum =(int) passengers.size();
     currMeters = 0;
 }
-
+/**
+ * default constructor.
+ * @return
+ */
 Trip::Trip() {
 }
 
@@ -79,11 +82,17 @@ void Trip::validate(int id, float tariff) {
         throw invalid_argument("id or tariff is invalid");
     }
 }
-
+/**
+ * getter for starting time member
+ * @return
+ */
 int Trip::getStartingTime() const {
     return startingTime;
 }
-
+/**
+ * getter for passengs number member
+ * @param passNum
+ */
 void Trip::setPassNum(int passNum) {
     Trip::passNum = passNum;
 }

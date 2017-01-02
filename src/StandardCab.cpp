@@ -1,5 +1,5 @@
 //
-// Created by itayoktan on 02/12/16.
+// Saar Shtalryd 307838854 & Itay Oktan 203036512
 //
 
 #include "StandardCab.h"
@@ -16,8 +16,8 @@ StandardCab::StandardCab(int id, Manufacturer manu, Color color) : Cab(id, manu,
                                                                                  ) {
 }
 /**
- *
- * @return
+ * getTyoe- return 1 as the speed of a standard cab.
+ * @return 1
  */
 int StandardCab::getType() {
     return 1;
@@ -28,7 +28,10 @@ int StandardCab::getType() {
 StandardCab::~StandardCab() {
 
 }
-
+/**
+ * default constructor.
+ * @return
+ */
 StandardCab::StandardCab(){};
 
 BOOST_CLASS_EXPORT(StandardCab)

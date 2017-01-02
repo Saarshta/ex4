@@ -19,7 +19,11 @@
 class Driver {
 
     friend class boost::serialization::access;
-
+/**
+ * serialize the Driver class
+ * @param ar
+ * @param version
+ */
     template<class Archive>
     void serialize(Archive &ar, const unsigned int version)
     {
@@ -49,10 +53,8 @@ private:
     int cabID;
     void updateSat();
 
-
-
-private:
     void validate(int age, int exp, int id);
+
 public:
     Driver(int id, int age, Status marital, int exp,
            int cabID);

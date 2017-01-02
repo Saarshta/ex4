@@ -17,6 +17,11 @@ class StandardCab : public Cab{
 
 
 private:
+    /**
+     * serialize function for StandardCab class.
+     * @param ar
+     * @param version
+     */
     template<class Archive>
     void serialize(Archive &ar, const unsigned int version)
     {

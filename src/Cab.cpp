@@ -86,7 +86,9 @@ void Cab::validate(int id) {
 Cab::~Cab() {
 
 }
-
+/**
+ * Default cab constractor.
+ */
 Cab::Cab() {
 
 }

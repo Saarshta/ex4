@@ -1,15 +1,22 @@
 //
-// Created by saar on 29/12/16.
+// Saar Shtalryd 307838854 & Itay Oktan 203036512
 //
 
 #include "DriverOperator.h"
 
-
+/**
+ * Constructor of DriverOperator
+ * @param udp - socket to assign to the member
+ * @return
+ */
 DriverOperator::DriverOperator(Socket *udp) : udp(udp) {
     driver = 0;
     end = buffer + 4095;
 }
-
+/**
+ * initializeDriver - get input from user throgh console and
+ * create a new driver and assign it as member.
+ */
 void DriverOperator::initializeDriver() {
     int id, age, exp, cabID;
     char blank;
@@ -39,11 +46,18 @@ void DriverOperator::initializeDriver() {
     this->driver = new Driver(id, age, marital, exp, cabID);
     this->driver->setCurrPos(startNode);
 }
-
+/**
+ * getter of driver member.
+ * @return driver
+ */
 Driver *DriverOperator::getDriver() const {
     return driver;
 }
-
+/**
+ * Destructor of DriverOperator.
+ * delete the udp, the driver and its members like:
+ * cab, current position, trip.
+ */
 DriverOperator::~DriverOperator() {
     delete udp;
     delete (driver->getCab());
@@ -57,7 +71,9 @@ DriverOperator::~DriverOperator() {
     //delete this->driver->getCurrPos();
     delete driver;
 }
-
+/**
+ * sendDriver - serialize the driver and send it through the udp.
+ */
 void DriverOperator::sendDriver() {
 
     std::string serial_str;
@@ -69,7 +85,10 @@ void DriverOperator::sendDriver() {
     udp->sendData(serial_str);
 
 }
-
+/**
+ * receiveCab - get a serialized cab through udp, deserialize it
+ * and assign it to the driver.
+ */
 void DriverOperator::receiveCab() {
 
     Cab* cab = 0;
@@ -81,7 +100,10 @@ void DriverOperator::receiveCab() {
     this->driver->setCab(cab);
 
 }
-
+/**
+ * updateLocation - get a serialized position, deserialize it and assign it
+ * to the driver. check if the position is in end of trip, then end trip.
+ */
 void DriverOperator::updateLocation() {
     AbstractNode* node = 0;
     boost::iostreams::basic_array_source<char> device(buffer, end);
@@ -100,7 +122,9 @@ void DriverOperator::updateLocation() {
         this->driver->setClientTrip(0);
     }
 }
-
+/**
+ * updateTrip - get a serialized trip, deserialize it and assign to driver.
+ */
 void DriverOperator::updateTrip() {
 
     Trip* trip = 0;
@@ -111,16 +135,25 @@ void DriverOperator::updateTrip() {
     this->driver->setClientTrip(trip);
 
 }
-// check if driver has a trip
+/**
+ * isActiveTrip - return true if the driver has a trip, else otherwise.
+ * @return
+ */
 bool DriverOperator::isActiveTrip() {
 
     return !this->driver->getCurrTrip() == 0;
 }
-
+/**
+ * receivingData - wait for data through the socket.
+ */
 void DriverOperator::receivingData() {
     udp->reciveData(buffer, sizeof(buffer));
 }
-
+/**
+ * isDataEnd - check if we got a "7" thorugh socket that indicates the
+ * end of program.
+ * @return
+ */
 bool DriverOperator::isDataEnd() {
     return strcmp(buffer, "7")==0;
 }

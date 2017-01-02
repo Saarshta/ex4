@@ -1,5 +1,5 @@
 //
-// Created by itayoktan on 02/12/16.
+// Saar Shtalryd 307838854 & Itay Oktan 203036512
 //
 
 #include "Map.h"

@@ -15,6 +15,10 @@
 LuxuryCab::LuxuryCab(int id, Manufacturer manu, Color color) : Cab(id, manu, color, 2) {
 
 }
+/**
+ * getType - return 2 as the speed of the luxury cab.
+ * @return
+ */
 int LuxuryCab::getType() {
     return 2;
 }
@@ -25,7 +29,10 @@ int LuxuryCab::getType() {
 LuxuryCab::~LuxuryCab() {
 
 }
-
+/**
+ * Default Constructor.
+ * @return
+ */
 LuxuryCab::LuxuryCab() {
 
 }

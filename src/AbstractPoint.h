@@ -1,6 +1,7 @@
 //
-// Created by itayoktan on 16/12/16.
+// Saar Shtalryd 307838854 & Itay Oktan 203036512
 //
+
 
 #ifndef EX3_ABSTRACTPOINT_H
 #define EX3_ABSTRACTPOINT_H

@@ -31,6 +31,11 @@
 class Cab {
 
     friend class boost::serialization::access;
+    /**
+     * serialize the Cab class
+     * @param ar
+     * @param version
+     */
     template<class Archive>
     void serialize(Archive &ar, const unsigned int version)
     {

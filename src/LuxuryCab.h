@@ -14,7 +14,11 @@
 class LuxuryCab : public Cab{
 
     friend class boost::serialization::access;
-
+/**
+ * serialize function for the LuxuryCab class
+ * @param ar
+ * @param version
+ */
     template<class Archive>
     void serialize(Archive &ar, const unsigned int version)
     {
