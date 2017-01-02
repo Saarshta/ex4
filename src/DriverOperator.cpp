@@ -15,10 +15,8 @@ void DriverOperator::initializeDriver() {
     char blank;
     char maritalSign;
     Status marital;
-    cout << "HELLO" << endl;
     cin >> id >> blank >> age >> blank >> maritalSign >> blank >>
         exp >> blank >> cabID;
-    cout << "BYE" << endl;
     switch (maritalSign) {
         // Options are Widowed, Divorced, Single, Married.
         case 'W':
@@ -52,6 +50,10 @@ DriverOperator::~DriverOperator() {
     MatrixNode* tempNode = (MatrixNode*)this->driver->getCurrPos();
     //tempNode->destroyLocation();
     delete tempNode;
+    if(isActiveTrip()) {
+        delete (MatrixNode *) this->driver->getCurrTrip()->getStart();
+        delete (MatrixNode *) this->driver->getCurrTrip()->getEnd();
+    }
     //delete this->driver->getCurrPos();
     delete driver;
 }
@@ -92,6 +94,8 @@ void DriverOperator::updateLocation() {
     //delete this->driver->getCurrPos();
     this->driver->setCurrPos(node);
     if (*(node) == *(this->driver->getCurrTrip()->getEnd())) {
+        delete (MatrixNode*)this->driver->getCurrTrip()->getStart();
+        delete (MatrixNode*)this->driver->getCurrTrip()->getEnd();
         delete (driver->getCurrTrip());
         this->driver->setClientTrip(0);
     }
@@ -104,8 +108,6 @@ void DriverOperator::updateTrip() {
     boost::iostreams::stream<boost::iostreams::basic_array_source<char> > s2(device);
     boost::archive::binary_iarchive ia(s2);
     ia >> trip;
-    //test
-    cout << "new trip id: " << trip->getId()<<endl;
     this->driver->setClientTrip(trip);
 
 }

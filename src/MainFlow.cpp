@@ -18,10 +18,15 @@ MainFlow::MainFlow(int sizeX, int sizeY, vector<Point> obstacles) {
     taxiCenter = new TaxiCenter(map);
 }
 
-
+/**
+ * run - runs the program's flow.
+ * @param argv the program's arguments.
+ */
 void MainFlow::run(char** argv){
+    // Initializing udp, with the input port.
     Socket* udp = new Udp(1, atoi(argv[1]));
     udp->initialize();
+    // Passing udp to taxiCenter.
     this->taxiCenter->setUdp(udp);
     char buffer[4096];
     char* end = buffer+4095;
@@ -29,6 +34,7 @@ void MainFlow::run(char** argv){
     char blank;
     MapRestartListener mapListener(map);
     do{
+        // Reading the user's option choice.
         cin >> option;
         switch (option) {
             case 1: // add a driver
@@ -43,7 +49,7 @@ void MainFlow::run(char** argv){
                 boost::archive::binary_iarchive ia(s2);
                 ia >> driver;
 
-                // Setting map , starting point
+                // Setting map, starting point
                 Point startPos(0,0);
                 driver->setMap(map);
                 driver->setCurrPos(map->getNode(&startPos));
@@ -51,10 +57,6 @@ void MainFlow::run(char** argv){
                 // Adding the driver to taxiCenter.
                 this->taxiCenter->addDriver(driver);
                 Cab* cab = this->taxiCenter->assignCabToDriver(driver->getId(), driver->getCabID());
-                // we find a cab to driver.
-                // we set map and cab to driver
-                // we add the driver to drivers list in taxicenter
-                //send the cab and the map to client
                 // Sending cab to client.
                 std::string serial_str;
                 boost::iostreams::back_insert_device<std::string> inserter(serial_str);
@@ -171,7 +173,6 @@ void MainFlow::run(char** argv){
  * Destructor.
  */
 MainFlow::~MainFlow() {
-
     delete taxiCenter;
     delete map;
 }

@@ -1,5 +1,5 @@
 //
-// Created by yanaiela on 12/10/16.
+// Saar Shtalryd 307838854 & Itay Oktan 203036512
 //
 
 #include "src/Udp.h"
@@ -10,11 +10,12 @@ using namespace std;
 
 int main(int argc, char *argv[]) {
 
-    cout << argv[2] << endl;
+    // Reading port.
     Socket* udp = new Udp(0, atoi(argv[2]));
     udp->initialize();
-
+    // Initializing driverOperator.
     DriverOperator driverOperator(udp);
+    // Initializing driver.
     driverOperator.initializeDriver(); // wait for input
     // Sending the serialized driver.
     driverOperator.sendDriver();
@@ -22,20 +23,19 @@ int main(int argc, char *argv[]) {
     driverOperator.receiveCab();
 
 
-
     while(true) {
         // Receiving input from server.
         driverOperator.receivingData();
-        // Check if it's 7, if it is, break
+        // Check if it's 7, if it is, break.
         if(driverOperator.isDataEnd()){
             break;
         }
         // Otherwise: check if driver has a trip
         if (driverOperator.isActiveTrip()) {
-            //we recieved a new location
+            // If there is an active trip, expect a new location.
             driverOperator.updateLocation();
         } else {
-            //we revieved a trip
+            // If there is no active trip, expect a new trip.
             driverOperator.updateTrip();
         }
         //test current position
