@@ -38,8 +38,6 @@ int main(int argc, char *argv[]) {
             // If there is no active trip, expect a new trip.
             driverOperator.updateTrip();
         }
-        //test current position
-        cout << *(driverOperator.getDriver()->getCurrPos()) << endl;
 
     }
     return 0;
