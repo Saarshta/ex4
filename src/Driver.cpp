@@ -127,20 +127,11 @@ void Driver::setCab(Cab *cab) {
  * consideration.
  * @param currTrip the driver's new trip.
  */
-bool Driver::setCurrTrip(Trip *newTrip) {
-    std::stack<AbstractNode*> trailStack;
-    // Maybe later we will need to check if the driver can also reach the
-    // start of the trip. For now just check if the trip is possible.
-    trailStack = searchAlgorithm->calcTrail(newTrip->getStart(), newTrip->getEnd());
-    // Restarting the map's node's distances to -1, marking as unvisited.
-    mapListener->restartMap();
-    if (trailStack.size() != 0) {
+void Driver::setCurrTrip(Trip *newTrip) {
+
         currTrip = newTrip;
-        trail = trailStack;
+        trail = newTrip->getTrail();
         isAvailable = false;
-        return true;
-    }
-    return false;
 }
 
 void Driver::setClientTrip(Trip *newTrip) {

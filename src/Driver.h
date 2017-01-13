@@ -65,7 +65,7 @@ public:
     void setTrail(const stack<AbstractNode *> &trail);
     void setExp(int exp);
     void setCab(Cab *cab);
-    bool setCurrTrip(Trip *newTrip);
+    void setCurrTrip(Trip *newTrip);
     void setIsAvailable(bool isAvailable);
     void setMap(Map* map);
     void setClientTrip(Trip* trip);

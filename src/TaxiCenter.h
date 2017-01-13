@@ -19,9 +19,15 @@ class Passenger;
 class TaxiCenter {
 private:
     Map* map;
+    MapRestartListener* mapListener;
     vector<Driver*> drivers;
     vector<Cab*> cabs;
     int currentTime;
+    SearchAlgorithm* searchAlgo;
+    struct data{
+        TaxiCenter* taxiCent;
+        Trip* trip;
+    } info;
 public:
     void setUdp(Socket *udp);
 
@@ -44,9 +50,14 @@ public:
     Driver* getDriverByID(int id);
     Cab* getCabByID(int id);
     void addDriver(Driver* newDriver);
-    void addCall(int id, AbstractPoint* start, AbstractPoint* end,
-                 const vector<Passenger *> passengers, float tariff, int startingTime);
+    bool addCall(Trip* newTrip);
+
+    void setInfoTrip(Trip* trip);
+
     void addCab(Cab* newCab);
+
+    const data &getInfo() const;
+
     void handleOpenCalls();
     void drive();
 
@@ -54,6 +65,7 @@ public:
 
     Cab* assignCabToDriver(int driverID, int CabID);
 
+    static void* calcAndAddCall(void* data);
 };
 
 

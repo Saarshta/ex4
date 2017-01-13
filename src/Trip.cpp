@@ -96,3 +96,15 @@ int Trip::getStartingTime() const {
 void Trip::setPassNum(int passNum) {
     Trip::passNum = passNum;
 }
+
+/**
+ * setTrail - sets the driver's trail.
+ * @param trail the driver's new route.
+ */
+void Trip::setTrail(const stack<AbstractNode *> &trail) {
+    Trip::trail = trail;
+}
+
+const stack<AbstractNode *> &Trip::getTrail() const {
+    return trail;
+}

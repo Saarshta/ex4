@@ -39,37 +39,49 @@ void MainFlow::run(char** argv){
         switch (option) {
             case 1: // add a driver
             {
+                //tcp - listen
                 int driversNum;
                 cin >> driversNum;
-                // Receiving driver from client.
-                Driver* driver;
-                udp->reciveData(buffer, sizeof(buffer));
-                boost::iostreams::basic_array_source<char> device(buffer, end);
-                boost::iostreams::stream<boost::iostreams::basic_array_source<char> > s2(device);
-                boost::archive::binary_iarchive ia(s2);
-                ia >> driver;
+                //in the for we accept a driver and handle it in new thread.
+                for(int i=0; i< driversNum;i++) {
+                    //accept
 
-                // Setting map, starting point
-                Point startPos(0,0);
-                driver->setMap(map);
-                driver->setCurrPos(map->getNode(&startPos));
+                    // create
 
-                // Adding the driver to taxiCenter.
-                this->taxiCenter->addDriver(driver);
-                Cab* cab = this->taxiCenter->assignCabToDriver(driver->getId(), driver->getCabID());
-                // Sending cab to client.
-                std::string serial_str;
-                boost::iostreams::back_insert_device<std::string> inserter(serial_str);
-                boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s(inserter);
-                boost::archive::binary_oarchive oa(s);
-                oa << (cab);
-                s.flush();
-                udp->sendData(serial_str);
+                    //add to threadeslist
+                    
 
+                    // Receiving driver from client.
+                    Driver *driver;
+                    udp->reciveData(buffer, sizeof(buffer));
+                    boost::iostreams::basic_array_source<char> device(buffer, end);
+                    boost::iostreams::stream<boost::iostreams::basic_array_source<char> > s2(device);
+                    boost::archive::binary_iarchive ia(s2);
+                    ia >> driver;
+
+                    // Setting map, starting point
+                    Point startPos(0, 0);
+                    driver->setMap(map);
+                    driver->setCurrPos(map->getNode(&startPos));
+
+                    // Adding the driver to taxiCenter.
+                    this->taxiCenter->addDriver(driver);
+                    Cab *cab = this->taxiCenter->assignCabToDriver(driver->getId(), driver->getCabID());
+                    // Sending cab to client.
+                    std::string serial_str;
+                    boost::iostreams::back_insert_device<std::string> inserter(serial_str);
+                    boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s(inserter);
+                    boost::archive::binary_oarchive oa(s);
+                    oa << (cab);
+                    s.flush();
+                    udp->sendData(serial_str);
+
+                }
                 break;
             }
             case 2: // add a trip to taxiCenter as call
             {
+                pthread_t t1;
                 int tripID;
                 int startX, startY, endX, endY;
                 int passNum;
@@ -78,10 +90,18 @@ void MainFlow::run(char** argv){
                 cin >> tripID >> blank >> startX >> blank >> startY >> blank >> endX >> blank >> endY >> blank
                     >> passNum >> blank >> tariff >> blank >> startingTime;
                 vector<Passenger *> passengers;
-                Point startOfTrip(startX, startY);
-                Point endOfTrip(endX, endY);
-                this->taxiCenter->addCall(tripID, &startOfTrip, &endOfTrip, passengers,
-                                          tariff, startingTime);
+                AbstractPoint startOfTrip = Point(startX, startY);
+                AbstractPoint endOfTrip= Point(endX, endY);
+                //creating trip and call the thread of calaulating trail
+                AbstractNode* startp = this->map->getNode(&startOfTrip);
+                AbstractNode* endp = this->map->getNode(&endOfTrip);
+                Trip* newTrip= new Trip(tripID, startp, endp, tariff, passengers, startingTime);
+                this->taxiCenter->setInfoTrip(newTrip);
+                int status = pthread_create(&t1, NULL, taxiCenter->calcAndAddCall, (void*)this->taxiCenter->getInfo());
+                if(status){
+                    throw "could not create thread";
+                }
+                this->tripThreadsList.push_back(&t1);
                 break;
             }
             case 3: // add a cab
@@ -151,7 +171,10 @@ void MainFlow::run(char** argv){
             }
             case 9: // move all drivers one step
             {
-
+                int tripThreadsCount =(int) this->tripThreadsList.size();
+                for(int i=0; i< tripThreadsCount; i++){
+                    pthread_join(*(this->tripThreadsList[i]), NULL);
+                }
                 //attach calls to drivers and update client trip through udp
                 this->taxiCenter->handleOpenCalls();
                 // update hour passed in server current time
@@ -169,6 +192,9 @@ void MainFlow::run(char** argv){
     udp->sendData("7");
     delete udp;
 }
+
+
+
 /**
  * Destructor.
  */

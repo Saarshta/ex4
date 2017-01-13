@@ -10,6 +10,7 @@
 #include "Passenger.h"
 #include <stdexcept>
 #include <boost/serialization/vector.hpp>
+#include <stack>
 
 /**
  * Trip.
@@ -38,6 +39,9 @@ private:
     vector<Passenger*> passengers;
     void validate(int id, float tariff);
     int startingTime;
+    stack<AbstractNode*> trail;
+public:
+    const stack<AbstractNode *> &getTrail() const;
 
 public:
     Trip(int id, AbstractNode *startNode, AbstractNode *endNode, float tariff,
@@ -48,6 +52,7 @@ public:
     AbstractNode* getStart();
     Trip();
 
+    void setTrail(const stack<AbstractNode *> &trail);
     void setPassNum(int passNum);
 
     int getStartingTime() const;

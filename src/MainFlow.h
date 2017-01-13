@@ -18,6 +18,7 @@ class MainFlow {
 private:
     TaxiCenter* taxiCenter;
     Map* map;
+    vector<pthread_t*> tripThreadsList;
 
 public:
     MainFlow(int sizeX, int sizeY, vector<Point> obstacle);
@@ -25,6 +26,11 @@ public:
     ~MainFlow();
 
     void run(char** argv);
+
+    void initDriver();
+    void handleDriver();
+    static void* aaa(void* structname);
+
 
 
 };
